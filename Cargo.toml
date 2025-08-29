@@ -1,6 +1,6 @@
 [package]
 name = "umya-spreadsheet"
-version = "2.3.1"
+version = "2.3.2"
 authors = ["MathNya <umya.net.info@gmail.com>"]
 repository = "https://github.com/MathNya/umya-spreadsheet"
 keywords = ["excel", "spreadsheet", "xlsx", "reader", "writer"]
@@ -19,17 +19,23 @@ byteorder = "1.5"
 cbc = "0.1.2"
 cfb = "0.10.0"
 chrono = { version = "0.4.38", default-features = false, features = ["clock"] }
+# 高效的字符编码转换库（UTF-8、Shift-JIS、Windows-125x 等），采用 C# / 浏览器风格实现，性能好且支持常见 legacy 编码。用来把 XLSX/HTML 中可能出现的非 UTF-8 文本正确解码。
 encoding_rs = "0.8.35"
+# 支持回溯、捕获组、前后查找等高级正则特性（在标准 rust regex 中不支持的），内部基于 backtracking。适合需要复杂匹配（例如 HTML/样式字符串复杂解析）的场景，但在性能/确定性上需注意回溯爆炸风险。
 fancy-regex = "0.14.0"
+# 提供跨平台的安全随机字节生成，抽象底层平台实现（Windows API、Unix /dev/urandom、WASM etc.）。在 manifest 中 project 定义了 feature "js"，用于在 WebAssembly/浏览器环境下启用对应实现（确保在不同目标下能正常获取随机数）。
 getrandom = { version = "0.2.15" }
 hmac = "0.12.1"
+# 一个用于解析 HTML 的轻量库，可以把 HTML 分解为节点、提取标签/属性等。用于从单元格中嵌入的 HTML 或从模板/注释中提取图片/链接等信息。
 html_parser = "0.7.0"
 imagesize = "0.14"
 lazy_static = "1.5.0"
 md-5 = "0.10.6"
 regex = "1.11.1"
 sha2 = "0.10.8"
+# 一个轻量且高性能的“短数组”/小向量实现（类似 smallvec 的简化版）。对小元素数量时避免堆分配以降低内存与拷贝开销。适合频繁创建短序列的场景（例如表格中每行的少量单元格索引等）。
 thin-vec = "0.2.13"
+# 用于以千位分隔符格式化数字（例如 1_234_567 -> "1,234,567"），支持多种分隔符与本地化样式。适合在导出/展示数值时美化输出。
 thousands = "0.2.0"
 quick-xml = { version = "0.37.1", features = ["serialize"] }
 zip = { version = "2.2.1", default-features = false, features = ["deflate"] }

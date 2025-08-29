@@ -34,7 +34,7 @@ pub struct CommentText {
 
 impl CommentText {
     #[inline]
-    pub(crate) fn get_text(&self) -> Option<&Text> {
+    pub fn get_text(&self) -> Option<&Text> {
         self.text.as_ref()
     }
 
@@ -117,9 +117,13 @@ impl CommentText {
             Event::End(ref e) => {
                 if e.name().into_inner() == b"text" {
                     if !vec_text_element.is_empty() {
-                        let mut obj = RichText::default();
-                        obj.set_rich_text_elements(vec_text_element);
-                        self.set_rich_text(obj);
+                        let mut rich_text = RichText::default();
+                        rich_text.set_rich_text_elements(vec_text_element);
+                        let combined_text = rich_text.get_text();
+                        
+                        let mut text_obj = Text::default();
+                        text_obj.set_value(combined_text.into_owned());
+                        self.set_text(text_obj);
                     }
                     return;
                 }
