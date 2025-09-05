@@ -215,7 +215,7 @@ impl Worksheet {
     /// (This method is crate only.)
     /// Get Cells.
     #[inline]
-    pub(crate) fn get_cell_collection_crate(&self) -> &Cells {
+    pub fn get_cell_collection_crate(&self) -> &Cells {
         &self.cell_collection
     }
 
